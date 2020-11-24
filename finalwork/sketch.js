@@ -95,8 +95,8 @@ function barchart(scores){
     text(scores[i].toPrecision(3), i * dx, height - h);
   }
 
-  //line(0,height*a/100,width,height*a/100);
-  //fill(0,0,128);
+  stroke(0,0,128);
+  line(0,height - height*a/100,width,height - height*a/100);
   // BLANK[6] (hint: 平均点の線を引きます)
 }
 
