@@ -12,6 +12,11 @@ function setup(){
   for(let i = 0; i < 10; i++){
     scores[i] = random(20, 100); // 60以上100未満のランダムな数を代入
   }
+  text("平均値は"+floor(average(scores)),10,20);
+  text("最大値は"+floor(largest(scores)),10,40);
+  text("最小値は"+floor(smallest(scores)),10,60);
+  text("標準偏差値は"+floor(stddev(scores)),10,80);
+  text("中央値は"+floor(median(scores)),10,100);
   console.log(scores);
   barchart(scores);
 }
@@ -25,41 +30,73 @@ function sum(arr){
 
 //　テキスト「配列と繰り返し」練習問題
 function average(arr){
-  // BLANK[1]
+  return sum(arr)/arr.length;
 }
 
 function largest(arr){
-  let n = 0;
+  let max = 0;
   for(let i = 0; i < arr.length; i++){
-    // BLANK[2]
+    if(arr[i]>max){
+      max=arr[i];
+    }
   }
-  return n;
+  return max;
 }
 
 function smallest(arr){
-  let n = 100;
+  let min = 100;
   for(let i = 0; i < arr.length; i++){
-    // BLANK[3]
+    if(arr[i]<min){
+      min=arr[i];
+    }
   }
-  return n;
+  return min;
+}
+
+function stddev(arr){
+ let a = average(arr);
+ let n = 0;
+ for(let i = 0; i<arr.length; i++){
+   n += (arr[i]-a)* (arr[i]-a);
+ }
+ return sqrt(n/arr.length);
+}
+
+function median(arr){
+  arr.sort();
+  return arr[floor(arr.length/2)];
 }
 
 // テキスト「配列を使った描画」棒グラフ
 function barchart(scores){
   scaleY(10);
-  // BLANK[4] (hint: largest, smallest, average を使って先にそれぞれの値を計算しておきます)
+  const l = largest(scores);
+  const sm = smallest(scores);
+  const a = average(scores);
+  const st = stddev(scores);
+  const m = median(scores);
 
   noStroke();
 
   for(let i = 0; i < scores.length; i++){
     const dx = width / scores.length;
     const h = height * scores[i] / 100;
-    // BLANK[5] (hint: 条件分岐を使って色を変更します)
+    if(scores[i]==l){
+      fill(255,69,0);
+    }
+    else if(scores[i]==sm){
+      fill(65,105,255);
+    }
+    else if(scores[i]==m){
+      fill(0,250,154);
+    }
     rect(i * dx + 2, height - h, dx - 4, h);
     fill(0);
     text(scores[i].toPrecision(3), i * dx, height - h);
   }
 
+  //line(0,height*a/100,width,height*a/100);
+  //fill(0,0,128);
   // BLANK[6] (hint: 平均点の線を引きます)
 }
 
